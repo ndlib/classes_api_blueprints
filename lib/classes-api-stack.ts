@@ -5,6 +5,8 @@ import {
   MethodLoggingLevel,
   TokenAuthorizer,
   AuthorizationType,
+  MockIntegration,
+  EmptyModel,
 } from '@aws-cdk/aws-apigateway'
 import { Function, Code, Runtime } from '@aws-cdk/aws-lambda'
 import { RetentionDays } from '@aws-cdk/aws-logs'
@@ -77,7 +79,6 @@ export default class ClassesApiStack extends Stack {
         allowCredentials: false,
         statusCode: 200,
       },
-      defaultMethodOptions: secureMethodOptions,
     })
     api.addRequestValidator('RequestValidator', {
       validateRequestParameters: true,
@@ -86,7 +87,30 @@ export default class ClassesApiStack extends Stack {
       passthroughBehavior: PassthroughBehavior.WHEN_NO_MATCH,
     }
     const coursesResource = api.root.addResource('courses')
-    coursesResource.addMethod('GET', new LambdaIntegration(passthroughLambda, integrationOptions))
+    coursesResource.addMethod('GET', new LambdaIntegration(passthroughLambda, integrationOptions), secureMethodOptions)
+
+    // Mock endpoint for automated testing
+    const testResource = api.root.addResource('test')
+    const mockIntegrationOptions = {
+      integrationResponses: [
+        {
+          statusCode: '200',
+        },
+      ],
+      requestTemplates: {
+        "application/json": `{ "statusCode": 200 }`
+      }
+    }
+    testResource.addMethod('GET', new MockIntegration(mockIntegrationOptions), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            "application/json": new EmptyModel(),
+          },
+        },
+      ],
+    })
 
     // Output API url to ssm so we can import it in the QA project
     new StringParameter(this, 'ApiUrlParameter', {
