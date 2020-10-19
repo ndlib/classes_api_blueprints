@@ -11,7 +11,7 @@
     "serviceRepository": "classes_api",
     "serviceBranch": "master",
     "blueprintsRepository": "classes_api_blueprints",
-    "blueprintsBranch": "master",
+    "blueprintsBranch": "main",
     "sentryTokenPath": "/all/sentry/ci-token",
     "sentryOrg": "university-of-notre-dame-ts",
     "sentryProject": "classes_api",
