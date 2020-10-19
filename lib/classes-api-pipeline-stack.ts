@@ -12,6 +12,7 @@ import { Construct, Stack, StackProps, SecretValue } from '@aws-cdk/core'
 import { ArtifactBucket, PipelineNotifications, SlackApproval } from '@ndlib/ndlib-cdk'
 import ClassesApiBuildProject from './classes-api-build-project'
 import ClassesApiBuildRole from './classes-api-build-role'
+import ClassesApiQaProject from './classes-api-qa-project'
 
 const stages = ['test', 'prod']
 
@@ -107,6 +108,18 @@ export default class ClassesApiPipelineStack extends Stack {
       environmentVariables: actionEnvironment,
     })
 
+    // AUTOMATED QA
+    const qaProject = new ClassesApiQaProject(this, 'QAProject', {
+      stage: 'test',
+      role: codebuildRole,
+    })
+    const smokeTestsAction = new CodeBuildAction({
+      input: appSourceArtifact,
+      project: qaProject,
+      actionName: 'SmokeTests',
+      runOrder: 98,
+    })
+
     // APPROVAL
     const approvalTopic = new Topic(this, 'PipelineApprovalTopic', {
       displayName: 'PipelineApprovalTopic',
@@ -127,7 +140,7 @@ export default class ClassesApiPipelineStack extends Stack {
     // TEST STAGE
     pipeline.addStage({
       stageName: 'DeployToTest',
-      actions: [deployToTestAction, manualApprovalAction],
+      actions: [deployToTestAction, smokeTestsAction, manualApprovalAction],
     })
 
     // DEPLOY TO PROD

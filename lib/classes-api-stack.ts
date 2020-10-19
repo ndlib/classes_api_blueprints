@@ -87,5 +87,12 @@ export default class ClassesApiStack extends Stack {
     }
     const coursesResource = api.root.addResource('courses')
     coursesResource.addMethod('GET', new LambdaIntegration(passthroughLambda, integrationOptions))
+
+    // Output API url to ssm so we can import it in the QA project
+    new StringParameter(this, 'ApiUrlParameter', {
+      parameterName: `${paramStorePath}/api-url`,
+      description: 'Path to root of the API gateway.',
+      stringValue: api.url,
+    })
   }
 }
