@@ -1,0 +1,61 @@
+{
+  "name": "classes_api_blueprints",
+  "author": "Hesburgh Libraries - WSE <web-and-software-engineering-group@nd.edu> (https://library.nd.edu)",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ndlib/classes_api_blueprints.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ndlib/classes_api_blueprints/issues"
+  },
+  "homepage": "https://github.com/ndlib/classes_api_blueprints#readme",
+  "keywords": [
+    "aws",
+    "cdk",
+    "ndlib"
+  ],
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "format": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "lint": "eslint '*/**/*.{js,ts,tsx}'"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.67.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "@types/source-map-support": "^0.5.3",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "aws-cdk": "1.67.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.1",
+    "ts-node": "^8.1.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "1.67.0",
+    "@aws-cdk/aws-codebuild": "1.67.0",
+    "@aws-cdk/aws-codepipeline": "1.67.0",
+    "@aws-cdk/aws-codepipeline-actions": "1.67.0",
+    "@aws-cdk/aws-iam": "1.67.0",
+    "@aws-cdk/aws-lambda": "1.67.0",
+    "@aws-cdk/aws-logs": "1.67.0",
+    "@aws-cdk/aws-s3": "1.67.0",
+    "@aws-cdk/aws-ssm": "1.67.0",
+    "@aws-cdk/core": "1.67.0",
+    "@ndlib/ndlib-cdk": "1.5.0",
+    "source-map-support": "^0.5.16"
+  }
+}
