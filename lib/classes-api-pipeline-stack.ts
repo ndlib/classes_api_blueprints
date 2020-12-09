@@ -157,10 +157,22 @@ export default class ClassesApiPipelineStack extends Stack {
       environmentVariables: actionEnvironment,
     })
 
+    // AUTOMATED QA
+    const prodQaProject = new ClassesApiQaProject(this, 'QAProjectProd', {
+      stage: 'prod',
+      role: codebuildRole,
+    })
+    const prodSmokeTestsAction = new CodeBuildAction({
+      input: appSourceArtifact,
+      project: prodQaProject,
+      actionName: 'SmokeTests',
+      runOrder: 98,
+    })
+
     // PROD STAGE
     pipeline.addStage({
       stageName: 'DeployToProd',
-      actions: [deployToProdAction],
+      actions: [deployToProdAction, prodSmokeTestsAction],
     })
   }
 }
