@@ -11,5 +11,5 @@ Infrastructure-as-code for the Hesburgh Libraries [classes_api service](https://
  
  ## Deployment
  ```
- cdk deploy classesAPI-pipeline
+ cdk deploy classesAPI-pipeline -c slackNotifyStackName=slack-approval-bot-wse-notifier
  ```
