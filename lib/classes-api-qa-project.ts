@@ -13,7 +13,7 @@ export class ClassesApiQaProject extends PipelineProject {
     const pipelineProps = {
       role: props.role,
       environment: {
-        buildImage: LinuxBuildImage.fromDockerRegistry('postman/newman'),
+        buildImage: LinuxBuildImage.STANDARD_4_0,
         environmentVariables: {
           API_URL: {
             value: `${paramStorePath}/api-url`,
@@ -25,7 +25,11 @@ export class ClassesApiQaProject extends PipelineProject {
         version: '0.2',
         phases: {
           install: {
+            'runtime-versions': {
+              nodejs: '12.x',
+            },
             commands: [
+              'npm install -g newman',
               'echo "Ensure that the Newman spec is readable"',
               'chmod -R 755 ./spec/postman/*',
             ],
